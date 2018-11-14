@@ -14,8 +14,7 @@ class AFPSGameMode : public AGameModeBase
 protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Spectating")
-	TSubclassOf<AActor> SpectatingViewpointClass;
-
+	TSubclassOf<AActor>SpectatingViewpointClass;
 
 public:
 

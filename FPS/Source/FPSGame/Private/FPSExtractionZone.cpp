@@ -3,10 +3,9 @@
 #include "FPSExtractionZone.h"
 #include "FPSCharacter.h"
 #include "FPSGameMode.h"
-#include "Components/BoxComponent.h" 
 #include "Components/DecalComponent.h"
-#include "Kismet//GameplayStatics.h"
-
+#include "Components/BoxComponent.h" 
+#include "Kismet/Gameplaystatics.h"
 // Sets default values
 AFPSExtractionZone::AFPSExtractionZone()
 {
@@ -20,13 +19,14 @@ AFPSExtractionZone::AFPSExtractionZone()
 	OverlapComp->SetBoxExtent(FVector(200.0f));
 	RootComponent = OverlapComp;
 
+	/*do not know the meaning of this function*/
 	OverlapComp->SetHiddenInGame(false);
 
 	OverlapComp->OnComponentBeginOverlap.AddDynamic(this, &AFPSExtractionZone::HandleOverlap);
 
 	DecalComp = CreateDefaultSubobject<UDecalComponent>(TEXT("DecolComp"));
 	DecalComp->DecalSize = FVector(200.0f);
-	DecalComp->SetupAttachment(OverlapComp);
+	DecalComp->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -40,7 +40,7 @@ void AFPSExtractionZone::HandleOverlap(UPrimitiveComponent * OverlappedComponent
 {
 	AFPSCharacter* MyPawn = Cast<AFPSCharacter>(OtherActor);
 
-	if(MyPawn == nullptr)
+	if (MyPawn == nullptr)
 	{
 		return;
 	}
@@ -55,8 +55,9 @@ void AFPSExtractionZone::HandleOverlap(UPrimitiveComponent * OverlappedComponent
 	}
 	else
 	{
-		UGameplayStatics::PlaySound2D(this, ObjectiveMissiingSound);
+		UGameplayStatics::PlaySound2D(this, ObjectiveMissingSound);
 	}
+
 
 	UE_LOG(LogTemp, Log, TEXT("Overlapped with extraction zone!"));
 }
